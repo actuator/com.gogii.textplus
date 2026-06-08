@@ -5,6 +5,8 @@ application can cause TextPlus to place an arbitrary outbound PSTN call without
 user interaction and without holding any Android permission, by starting an
 exported activity with two string extras.
 
+<img width="1881" height="997" alt="image" src="https://github.com/user-attachments/assets/b2481c56-51bd-4ff2-8466-ffd92fcc9434" />
+
 | | |
 |---|---|
 | Package | `com.gogii.textplus` |
